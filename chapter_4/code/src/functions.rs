@@ -43,7 +43,24 @@ pub fn fibo_repeatedly(n: usize) -> usize {
     vec_fibo[n]
 }
 
-// メモ化を行った、再帰的にフィボナッチ数列を求める関数
+// HashMaptによるメモ化を行った、再帰的にフィボナッチ数列を求める関数
 // O(N)
-pub fn fibo_memo_recursively(n: usize) {
+use std::collections::HashMap;
+fn calc_fibo(n: u64, memo: &mut HashMap<u64, u64>) -> u64 {
+    return match memo.get(&n) {
+        None => {
+            let new_num = calc_fibo(n - 2, memo) + calc_fibo(n - 1, memo);
+            memo.insert(n, new_num);
+            new_num
+        },
+        _ => memo[&n]
+    }
+}
+
+//呼ばれるのはこっち
+pub fn fibo_hash(num: u64) -> u64 {
+    let mut memo: HashMap<u64, u64> = HashMap::new();
+    memo.insert(0, 0);
+    memo.insert(1, 1);
+    calc_fibo(num, &mut memo)
 }
