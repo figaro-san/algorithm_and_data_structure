@@ -64,3 +64,24 @@ pub fn fibo_hash(num: u64) -> u64 {
     memo.insert(1, 1);
     calc_fibo(num, &mut memo)
 }
+
+// i==0のときw==0なら今までの組み合わせ(wから今まで選択してきた要素の値を引くような動作)が正しいとわかる
+pub fn solve_subset_sum_problem(i: usize, w: i32, a: &mut Vec<i32>) -> bool {
+    if i == 0 { 
+        if w == 0 {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if solve_subset_sum_problem(i-1, w, a) {
+        return true;
+    }
+
+    if solve_subset_sum_problem(i-1, w-a[i-1], a) {
+        return true;
+    }
+
+    false
+}
